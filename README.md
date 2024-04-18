@@ -10,13 +10,14 @@ Compatibility with HRS's Handling script for gears
 ![Image](https://i.imgur.com/FfKHXDk.png)
 
 # Features
-- Status HUD with health, armor, hunger, thirst, stamina and stress
+- Status HUD with health, armor, hunger, thirst, stamina/oxygen and stress
 - HUD components hiding when filled 80%
 - Car HUD with vehicle speed, altitude, closest streets, direction, gear, rpm and fuel
 - Voice HUD with range and changing color when talking
 - Dynamic minimap based on player resolution
 - Border at minimap and changed minimap shape
 - HUD menu to adjust your preferred design (currently WIP)
+- Written to support ox_lib and all its features, using statebags etc.
 
 # Dependicies
 - qbx_core

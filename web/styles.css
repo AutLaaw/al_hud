@@ -1,0 +1,516 @@
+@import url('https://fonts.cdnfonts.com/css/alarm-clock');
+
+:root {
+    --main-color: #82fd35;
+    --button-color: #82fd35;
+    --white-color: #FFFFFF;
+    --text-font: 'Alarm Clock';
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: var(--white-color);
+    margin: 0;
+    padding: 0;
+}
+
+#player-hud-container {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    bottom: 5px;
+    gap: 2px;
+    left: 10px;
+}
+
+#vehicle-hud-container {
+    display: none;
+    border-radius: 3px;
+    width: 395px;
+    height: 287px;
+    position: absolute;
+    left: 12px;
+    bottom: 45px;
+    font-family: var(--text-font);
+    border: 4px solid #1b1d21;
+    color: #ffffff;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#ui-container {
+    font-size: 20px;
+    padding: 20px;
+    color: var(--white-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(44, 44, 44);
+    border: 2px solid #1b1d21c8;
+    border-radius: 10px;
+    overflow: auto;
+}
+
+.hud-field {
+    height: 25px;
+    width: 60px;
+    border-radius: 3px;
+    border: 1px solid #1b1d21c8;
+    background-color: #1b1d21c8;
+}
+
+.hud-icon {
+    z-index: 1;
+    margin-left: 5px;
+    margin-top: 5px;
+    font-size: 15px;
+    color: var(--white-color);
+    position: absolute;
+}
+
+#health {
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgb(33, 171, 97);
+    transition: width 0.8s ease;
+}
+
+#armor {
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgb(45, 82, 134);
+    transition: width 0.8s ease;
+    
+}
+
+#thirst {
+    transform: rotate(180deg);
+    width: 70%;
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgb(26, 124, 173);
+    transition: width 0.8s ease;
+}
+
+#hunger {
+    transform: rotate(180deg);
+    width: 40%;
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgb(221, 110, 20);
+    transition: width 0.8s ease;
+}
+
+#stamina {
+    width: 40%;
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgb(116, 116, 116);
+    transition: width 0.8s ease;
+}
+
+#oxygen {
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgb(138, 168, 189);
+    transition: width 0.8s ease;
+}
+
+#stress {
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgb(255, 0, 0);
+    transition: width 0.8s ease;
+
+}
+
+#voice {
+    background-color: rgb(155, 155, 155);
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    width: 35px;
+    height: 6.5px;
+    border-radius: 5px;
+    -webkit-transition: width 1.0s ease;
+    -moz-transition: width 1.0s ease;
+    transition: width 1.0s ease;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border: 2px solid #1b1d21c8;
+}
+
+#speed-type {
+    position: absolute;
+    font-size: 15px;
+    font-weight: bold;
+    bottom: 45px;
+    color: var(--main-color);
+    right: 5px;
+}
+
+#speed {
+    position: absolute;
+    font-size: 45px;
+    font-weight: bold;
+    bottom: 0px;
+    color: var(--main-color);
+    right: 5px;
+}
+
+#seatbelt {
+    position: absolute;
+    font-size: 15px;
+    bottom: 8px;
+    left: 30%;
+    color: rgb(248, 157, 157);
+}
+
+#altitude {
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    bottom: 5vh;
+    right: 5px;
+    color: var(--main-color);
+}
+
+#alt-txt {
+    position: absolute;
+    font-size: 15px;
+    font-weight: bold;
+    bottom: 7.5vh;
+    color: var(--main-color);
+    right: 5px;
+}
+
+#fuel-icon {
+    position: absolute;
+    font-size: 15px;
+    bottom: 8px;
+    color: var(--main-color);
+    right: 45%;
+}
+
+#fuel {
+    position: absolute;
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--main-color);
+    bottom: 0px;
+    right: 50%;
+}
+
+#gear {
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--main-color);
+    bottom: 0px;
+    left: 10px;
+    text-align: left;
+}
+
+#rpm {
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--main-color);
+    bottom: 27.5px;
+    left: 10px;
+}
+
+#street1 {
+    font-variant-caps: all-petite-caps;
+    font-family: var(--text-font);
+    font-weight: bold;
+    color: var(--main-color);
+    position: absolute;
+    font-size: 30px;
+    left: 10px;
+}
+
+#street2 {
+    font-variant-caps: all-petite-caps;
+    font-family: var(--text-font);
+    font-weight: bold;
+    color: var(--main-color);
+    position: absolute;
+    font-size: 20px;
+    top: 25px;
+    left: 10px;
+}
+
+#direction {
+    position: absolute;
+    font-family: var(--text-font);
+    font-weight: bold;
+    color: var(--main-color);
+    font-size: 30px;
+    top: 10px;
+    right: 10px;
+}
+
+#menubuttons, #resetColor, #changeRotation {
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button {
+    background-color: #333;
+    color: var(--white-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #454545;
+}
+
+input {
+    border: 3px solid #1b1d21c8;
+    margin-bottom: 10px;
+    width: 100%;
+    font-size: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #d3d3d3;
+    opacity: 0.85;
+}
+
+.preferences-panel {
+    margin: auto;
+    color: #ffffff;
+}
+
+.preferences-panel select, .preferences-panel button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #333;
+    color: var(--white-color);
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+.preferences-section {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preferences-section label {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.preferences-section select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
+    color: var(--white-color);
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.preferences-section button.add-new,
+button.save {
+    background-color: var(--main-color);
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.preferences-section button.add-new:hover,
+button.save:hover {
+    background-color: var(--main-color);
+}
+
+button.save {
+    width: auto;
+    padding: 10px 30px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.slider-label {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.35);
+    color: var(--white-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.slider-container input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #333;
+    outline: none;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 10px;
+    background: var(--white-color);
+    outline: none;
+}
+
+.slider-container input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: var(--main-color);
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--main-color);
+    cursor: pointer;
+}
+
+.layout {
+    display: flex;
+    min-height: 50vh;
+}
+
+.sidebar {
+    position: relative;
+    width: 300px;
+    background-color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.save {
+    position: absolute;
+    top: 45.75vh;
+}
+
+.reset {
+    padding: 8px 16px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: -10px;
+    transition: background-color 0.3s;
+}
+
+.reset:hover {
+    background-color: #454545;
+}
+
+.reset:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--main-color);
+}
+
+.UIGapReset, .vehicleHudHeightReset, .vehicleHudWidthReset {
+    padding: 6px 16px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-top: -9px;
+    transition: background-color 0.3s;
+}
+
+.UIGapReset:hover, .vehicleHudHeightReset:hover, .vehicleHudWidthReset:hover {
+    background-color: #454545;
+}
+
+@media (width: 1920px) and (height: 1080px){
+    #vehicle-hud-container {
+        width: 295px;
+        height: 217px;
+        left: 10px;
+        bottom: 33px;
+    }
+    .save {
+        position: absolute;
+        top: 47.5vh;
+    }
+}
+
+@media (width: 2560px) and (height: 1440px){
+    #vehicle-hud-container {
+        width: 396px;
+        height: 288px;
+        left: 12px;
+        bottom: 45px;
+    }
+    #street1 {
+        font-size: 35px;
+    }
+    #street2 {
+        font-size: 25px;
+    }
+    #seatbelt {
+        left: 35%;
+    }
+    .save {
+        position: absolute;
+        top: 45.75vh;
+    }
+}
+
+@media (width: 3440px) and (height: 1440px){
+    #vehicle-hud-container {
+        width: 395px;
+        height: 291px;
+        left: 32px;
+        bottom: 43px;
+    }
+}

@@ -4,7 +4,10 @@ My version of [mt-hud](https://github.com/MT-Scripts/mt-hud)
 Compatibility with HRS's Handling script for gears
 
 # Preview
-![Images](https://imgur.com/gallery/EQkMoDv)
+![Image](https://i.imgur.com/68Xu9gC.png)
+![Image](https://i.imgur.com/ukpoq3O.png)
+![Image](https://i.imgur.com/nUy1Pqb.png)
+![Image](https://i.imgur.com/FfKHXDk.png)
 
 # Features
 - Status HUD with health, armor, hunger, thirst, stamina and stress

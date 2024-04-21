@@ -3,7 +3,7 @@ My version of [mt-hud](https://github.com/MT-Scripts/mt-hud)
 
 Compatibility with HRS's Handling script for gears
 
-# Preview
+# Preview 1.0
 ![Image](https://i.imgur.com/68Xu9gC.png)
 ![Image](https://i.imgur.com/ukpoq3O.png)
 ![Image](https://i.imgur.com/nUy1Pqb.png)

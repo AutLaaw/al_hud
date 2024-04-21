@@ -1,6 +1,5 @@
 fx_version 'cerulean'
 game 'gta5'
-lua54 'yes'
 Author 'AutLaaw'
 
 shared_scripts {

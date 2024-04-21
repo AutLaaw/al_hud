@@ -4,6 +4,7 @@
     --main-color: #82fd35;
     --button-color: #82fd35;
     --white-color: #FFFFFF;
+    --background-color: #2a2a2a;
     --text-font: 'Alarm Clock';
 }
 
@@ -21,7 +22,7 @@ body {
     flex-wrap: wrap;
     bottom: 5px;
     gap: 2px;
-    left: 10px;
+    left: 12px;
 }
 
 #vehicle-hud-container {
@@ -266,15 +267,17 @@ body {
 button {
     background-color: #333;
     color: var(--white-color);
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
     background-color: #454545;
+    transform: translateY(-1px);
 }
 
 input {
@@ -290,38 +293,38 @@ input {
 
 .preferences-panel {
     margin: auto;
-    color: #ffffff;
+    color: var(--white-color);
 }
 
 .preferences-panel select, .preferences-panel button {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    background-color: #333;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: #444;
     color: var(--white-color);
     border: 1px solid #444;
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
 .preferences-section {
-    background-color: #2a2a2a;
+    background-color: var(--background-color);
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .preferences-section label {
-    font-size: 14px;
+    font-size: 16px;
     color: #ccc;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: block;
 }
 
 .preferences-section select {
     width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #444;
+    padding: 12px 15px;
+    border: 2px solid #444;
     border-radius: 4px;
     background-color: #333;
     color: var(--white-color);
@@ -333,27 +336,36 @@ input {
     cursor: pointer;
 }
 
-.preferences-section button.add-new,
-button.save {
+.preferences-section button.add-new, button.save, button.resetAll {
     background-color: var(--main-color);
     color: black;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     display: inline-block;
     margin-top: 10px;
     transition: background-color 0.3s;
 }
 
-.preferences-section button.add-new:hover,
-button.save:hover {
-    background-color: var(--main-color);
+.preferences-section input[type='text'] {
+    width: 75px;
+    padding: 8px;
+    background-color: #333;
+    border: 2px solid #444;
+    border-radius: 4px;
+    font-size: 16px;
+    color: var(--white-color);
 }
 
-button.save {
-    width: auto;
-    padding: 10px 30px;
+.preferences-section input[type='text']::placeholder {
+    color: var(--white-color);
+}
+
+.preferences-section input[type='text']:focus {
+    border-color: var(--main-color);
+    outline: none;
+    box-shadow: 0 0 0 2px var(--main-color);
 }
 
 .slider-container {
@@ -365,21 +377,23 @@ button.save {
 
 .slider-label {
     position: absolute;
-    background: rgba(0, 0, 0, 0.35);
-    color: var(--white-color);
-    padding: 4px 8px;
-    border-radius: 4px;
+    top: -25px;
+    left: 0;
     font-size: 12px;
-    text-align: center;
+    color: var(--white-color);
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 999;
 }
 
 .slider-container input[type='range'] {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    border-radius: 10px;
-    background-color: #333;
-    outline: none;
+    height: 12px;
+    background-color: var(--background-color);
+    position: relative;
 }
 
 input[type=range] {
@@ -388,10 +402,9 @@ input[type=range] {
     height: 6px;
     border-radius: 10px;
     background: var(--white-color);
-    outline: none;
 }
 
-.slider-container input[type='range']::-webkit-slider-thumb {
+input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 25px;
@@ -432,27 +445,14 @@ input[type=range]::-moz-range-thumb {
 
 .save {
     position: absolute;
-    top: 45.75vh;
+    bottom: 10px;
+    left: 10px;
 }
 
-.reset {
-    padding: 8px 16px;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: -10px;
-    transition: background-color 0.3s;
-}
-
-.reset:hover {
-    background-color: #454545;
-}
-
-.reset:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--main-color);
+.resetAll {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
 .UIGapReset, .vehicleHudHeightReset, .vehicleHudWidthReset {
@@ -471,6 +471,79 @@ input[type=range]::-moz-range-thumb {
     background-color: #454545;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #333;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.input-wrapper {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.input-wrapper label {
+    font-size: 16px;
+    color: var(--white-color);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.input-wrapper input {
+    width: 10%;
+    padding: 12px;
+    border: 2px solid #444;
+    border-radius: 4px;
+    font-size: 16px;
+    color: var(--white-color);
+    background-color: #333;
+    box-sizing: border-box;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--white-color);
+}
+
+.input-wrapper input:focus {
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 2px var(--main-color);
+}
+
+.header-text {
+    display: block;
+    font-size: 30px;
+    color: var(--white-color);
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.category-text {
+    display: block;
+    font-size: 25px;
+    color: var(--white-color);
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.percentvalue-text {
+    display: block;
+    font-size: 20px;
+    color: var(--white-color);
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
 @media (width: 1920px) and (height: 1080px){
     #vehicle-hud-container {
         width: 295px;
@@ -478,9 +551,17 @@ input[type=range]::-moz-range-thumb {
         left: 10px;
         bottom: 33px;
     }
-    .save {
-        position: absolute;
-        top: 47.5vh;
+}
+
+@media (width: 2560px) and (height: 1080px){
+    #player-hud-container {
+        left: 23px;
+    }
+    #vehicle-hud-container {
+        width: 295px;
+        height: 217px;
+        left: 23px;
+        bottom: 33px;
     }
 }
 
@@ -499,10 +580,6 @@ input[type=range]::-moz-range-thumb {
     }
     #seatbelt {
         left: 35%;
-    }
-    .save {
-        position: absolute;
-        top: 45.75vh;
     }
 }
 

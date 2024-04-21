@@ -35,42 +35,72 @@
             <div class='layout'>
                 <div class='sidebar'>
                     <div class='preferences-section'>
-                        <label for='hudVersion'>HUD Preset</label>
-                        <select id='hudVersion'>
+                        <label class="header-text" for='hudVersion'>HUD Presets</label>
+                        <select id='HUD'>
                             <option value='1' selected>1</option>
                             <option value='2'>2</option>
                         </select>
                         <button class='add-new'>Add New</button>
                     </div>
-                    <button class='save'>Save</button>
+                    <div class='preferences-section'>
+                        <label class="header-text" for='hudVersion'>HUD Colors</label>
+                        <div id='hudColor' style='display: flex; align-items: center;'>
+                            <input type='color' id='colorPicker' name='colorPicker' value='#82fd35' style='display: none;'>
+                            <button type='button' id='menubuttons'>HUD Colors</button>
+                            <button type='button' id='resetColor' style='margin-left: 10px;'>Reset Color</button>
+                        </div>
+                        <div id='hudRotation' style='margin-top: 10px;'>
+                            <button type='button' id='changeRotation'>Change HUD Elements Rotation</button>
+                        </div>
+                    </div>
+                    <button type='button' class='resetAll' id='resetAll'>Reset All</button>
+                    <button type='button' class='save' id='saveButton'>Save</button>
                 </div>
             <div class='main-content'>
                 <div class='hud-settings'>
-                    <h2>HUD</h2>
-                    <h3>UI Element Gap</h3>
+                    <label class="header-text" for='hudVersion'>HUD Options</label>
+                    <label class="category-text" for='UIElementGap'>UI Element Gap</label>
                     <div class='slider-container'>
                         <input type='range' id='UIElementGap' min='0' max='100' value='2'>
                         <button class='UIGapReset'>Reset to Default</button>
                     </div>
-                    <h3>Vehicle HUD Height</h3>
+                    <label class="category-text" for='UIElementGap'>Vehicle HUD Height</label>
                     <div class='slider-container'>
                         <input type='range' id='vehicleHudHeight' min='0' max='995' value='45'>
                         <button class='vehicleHudHeightReset'>Reset to Default</button>
                     </div>
-                    <h3>Vehicle HUD Width</h3>
+                    <label class="category-text" for='UIElementGap'>Vehicle HUD Width</label>
                     <div class='slider-container'>
                         <input type='range' id='vehicleHudWidth' min='0' max='2000'value='12'>
                         <button class='vehicleHudWidthReset'>Reset to Default</button>
                     </div>
+                    <label class="header-text" for='hudVersion'>Icon Values</label>
+                    <label class="percentvalue-text" for='UIElementGap'>Health</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="healthvalue" class="procentvalue" placeholder="0-100%">
+                        <button class='resetHealth'>Reset to Default</button>
+                    </div>
+                    <label class="percentvalue-text" for='UIElementGap'>Armor</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="armorvalue" class="procentvalue" placeholder="0-100%"><button class='resetArmor'>Reset to Default</button>
+                    </div>
+                    <label class="percentvalue-text" for='UIElementGap'>Thirst</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="thirstvalue" class="procentvalue" placeholder="0-100%"><button class='resetThirst'>Reset to Default</button>
+                    </div>
+                    <label class="percentvalue-text" for='UIElementGap'>Hunger</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="hungervalue" class="procentvalue" placeholder="0-100%"><button class='resetHunger'>Reset to Default</button>
+                    </div>
+                    <label class="percentvalue-text" for='UIElementGap'>Stamina</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="staminavalue" class="procentvalue" placeholder="0-100%"><button class='resetStamina'>Reset to Default</button>
+                    </div>
+                    <label class="percentvalue-text" for='UIElementGap'>Stress</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="stressvalue" class="procentvalue" placeholder="0-100%"><button class='resetStress'>Reset to Default</button>
+                    </div>
                 </div>
-                <div id='hudColor' style='display: flex; align-items: center;'>
-                    <input type='color' id='colorPicker' name='colorPicker' value='#82fd35' style='display: none;'>
-                    <button type='button' id='menubuttons'>HUD Colour</button>
-                    <button type='button' id='resetColor' style='margin-left: 10px;'>Reset Color</button>
-                </div>
-                <div id='hudRotation' style='margin-top: 10px;'>
-                    <button type='button' id='changeRotation'>Change HUD Elements Rotation</button>
-                </div>                
             </div>
         </div>
         <script src='app.js'></script>

@@ -8,8 +8,11 @@ Compatibility with HRS's Handling script for gears
 ![Image](https://i.imgur.com/ukpoq3O.png)
 ![Image](https://i.imgur.com/nUy1Pqb.png)
 ![Image](https://i.imgur.com/FfKHXDk.png)
+# 1.1
+![Image](https://i.imgur.com/LXiEFMl.png)
+![Image](https://i.imgur.com/Yt1M42D.png)
 
-# Features
+# 1.0 Features
 - Status HUD with health, armor, hunger, thirst, stamina/oxygen and stress
 - HUD components hiding when filled 80%
 - Car HUD with vehicle speed, altitude, closest streets, direction, gear, rpm and fuel
@@ -18,6 +21,14 @@ Compatibility with HRS's Handling script for gears
 - Border at minimap and changed minimap shape
 - HUD menu to adjust your preferred design (currently WIP)
 - Written to support ox_lib and all its features, using statebags etc.
+
+# Update 1.1
+- Rewrote HUD UI menu
+- Added default values for displaying HUD elements (health, armor etc.)
+- Added reset all button
+- Added support for 2560x1080 resolution
+- Improved code functionality
+- Fixed stress not working properly
 
 # Dependicies
 - qbx_core

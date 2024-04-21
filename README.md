@@ -8,7 +8,7 @@ Compatibility with HRS's Handling script for gears
 ![Image](https://i.imgur.com/ukpoq3O.png)
 ![Image](https://i.imgur.com/nUy1Pqb.png)
 ![Image](https://i.imgur.com/FfKHXDk.png)
-# 1.1
+# Preview 1.1
 ![Image](https://i.imgur.com/LXiEFMl.png)
 ![Image](https://i.imgur.com/Yt1M42D.png)
 
@@ -22,7 +22,7 @@ Compatibility with HRS's Handling script for gears
 - HUD menu to adjust your preferred design (currently WIP)
 - Written to support ox_lib and all its features, using statebags etc.
 
-# Update 1.1
+# 1.1 Features
 - Rewrote HUD UI menu
 - Added default values for displaying HUD elements (health, armor etc.)
 - Added reset all button

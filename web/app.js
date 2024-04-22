@@ -88,10 +88,12 @@ $(document).ready(function(){
             $('#voice').css('width', '60px');
         }
 
-        if (data.talking) {
-            $('#voice').css('background-color', 'rgba(240, 252, 25, 0.8)');
+        if (data.radio) {
+            $("#voice").css("background", "rgba(214, 71, 99, 0.8)");
+        } else if (data.talking) {
+            $("#voice").css("background", "rgba(240, 252, 25, 0.8)");
         } else {
-            $('#voice').css('background-color', 'rgba(182, 182, 182, 0.641)');
+            $("#voice").css("background", "rgba(212, 212, 212, 0.8)");
         }
     }
 
@@ -124,7 +126,6 @@ $(document).ready(function(){
     function display(bool) {
         if (bool) {
             $('#ui-container').show();
-            // Show slider labels
             $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth').each(function() {
                 var $this = $(this);
                 var value = $this.val();
@@ -149,7 +150,7 @@ $(document).ready(function(){
 
     document.onkeyup = function(data) {
         if (data.which == 27) {
-            $.post('https://qbx_hud/exit', JSON.stringify({}));
+            $.post('https://al_hud/exit', JSON.stringify({}));
             return
         }
     };
@@ -437,26 +438,32 @@ $(document).ready(function(){
 
     $('.resetHealth').click(function() {
         $('#healthvalue').val(80);
+        defaultHealth = 80;
     });
 
     $('.resetArmor').click(function() {
         $('#armorvalue').val(10);
+        defaultArmor = 10;
     });
 
     $('.resetThirst').click(function() {
         $('#thirstvalue').val(80);
+        defaultThirst = 80;
     });
 
     $('.resetHunger').click(function() {
         $('#hungervalue').val(80);
+        defaultHunger = 80;
     });
 
     $('.resetStamina').click(function() {
         $('#staminavalue').val(80);
+        defaultStamina = 80;
     });
 
     $('.resetStress').click(function() {
         $('#stressvalue').val(10);
+        defaultStress = 10;
     });
 
     $('#resetAll').on('click', function() {
@@ -468,11 +475,16 @@ $(document).ready(function(){
         $('#player-hud-container').css('flex-direction', 'row');
     
         $('#healthvalue').val('80');
+        defaultHealth = 80;
         $('#armorvalue').val('10');
         $('#thirstvalue').val('80');
+        defaultThirst = 80;
         $('#hungervalue').val('80');
+        defaultHunger = 80;
         $('#staminavalue').val('80');
+        defaultStamina = 80;
         $('#stressvalue').val('10');
+        defaultStress = 10;
     });
 
     setDefaultSizeValues();

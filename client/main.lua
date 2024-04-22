@@ -1,5 +1,16 @@
 local config = require 'config'
 local hud = config.HUD
+local QBCore
+local seatbeltOn = false
+if hud.framework == 'qb-core' then
+    QBCore = exports[hud.framework]:GetCoreObject()
+end
+if hud.framework == 'qbx_core' then
+    seatbeltOn = LocalPlayer.state.seatbelt
+else
+    seatbeltOn = seatbeltOn
+end
+
 local speedMultiplier = hud.useMPH and 2.23694 or 3.6
 local display = false
 local vehicleHUDActive = false
@@ -15,28 +26,32 @@ local hasWeapon = false
 local function loadSettings(settings)
     for k, v in pairs(settings) do
         if k == 'isToggleMapShapeChecked' then
-            sharedConfig.menu.isToggleMapShapeChecked = v
+            hud.menu.isToggleMapShapeChecked = v
             SendNUIMessage({test = true, event = k, toggle = v})
         elseif k == 'isCineamticModeChecked' then
-            sharedConfig.menu.isCineamticModeChecked = v
+            hud.menu.isCineamticModeChecked = v
             cinematicShow(v)
             SendNUIMessage({test = true, event = k, toggle = v})
         elseif k == 'isChangeFPSChecked' then
-            sharedConfig.menu[k] = v
+            hud.menu[k] = v
             local val = v and 'Optimized' or 'Synced'
             SendNUIMessage({test = true, event = k, toggle = val})
         else
-            sharedConfig.menu[k] = v
+            hud.menu[k] = v
             SendNUIMessage({test = true, event = k, toggle = v})
         end
     end
-    exports.qbx_core:Notify('Hud Settings Loaded', 'success')
+    if hud.framework == 'qbx_core' then
+        exports.qbx_core:Notify('Hud Settings Loaded', 'success')
+    else
+        QBCore.Functions.Notify('Hud Settings Loaded', 'success')
+    end
     Wait(1000)
     TriggerEvent('hud:client:LoadMap')
 end
 
 local function saveSettings()
-    SetResourceKvp('hudSettings', json.encode(sharedConfig.menu))
+    SetResourceKvp('hudSettings', json.encode(hud.menu))
 end
 ]]
 
@@ -49,16 +64,16 @@ end)
 
 AddEventHandler('onResourceStart', function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
-    Wait(2000)
+    Wait(500)
     --local hudSettings = GetResourceKvpString('hudSettings')
     --if hudSettings then loadSettings(json.decode(hudSettings)) end
     startHUD()
 end)
 
 function startHUD()
-    local ped = cache.ped
-    if not IsPedInAnyVehicle(ped, false) then
+    if not cache.vehicle then
         DisplayRadar(false)
+        SendNUIMessage({ action = 'hideVehicleHUD'})
     else
         DisplayRadar(true)
         SendNUIMessage({ action = 'showVehicleHUD' })
@@ -112,6 +127,7 @@ CreateThread(function()
             dynamicStress = stress,
             stress = stress,
             voice = LocalPlayer.state.proximity.distance,
+            radio = LocalPlayer.state.radioActive,
             talking = NetworkIsPlayerTalking(cache.playerId),
         })
     end
@@ -130,7 +146,7 @@ CreateThread(function()
             end
 
             local crossroads = GetCrossroads(vehicle)
-            local gear = exports[hud.gearExport]:getCurrentGear()
+            local gear = getGears()
             local rpm = GetVehicleCurrentRpm(vehicle)
             local altitudeInfo = vehicleTypeIsAir and {
                 altitude = math.ceil(GetEntityCoords(cache.ped, true).z * 100),
@@ -149,7 +165,7 @@ CreateThread(function()
                 street1 = crossroads[1],
                 street2 = crossroads[2],
                 direction = GetDirectionText(GetEntityHeading(vehicle)),
-                seatbeltOn = LocalPlayer.state.seatbelt,
+                seatbeltOn = seatbeltOn,
                 showSeatbelt = showSeatbelt,
                 nos = nitroLevel,
                 altitude = altitudeInfo.altitude,
@@ -184,6 +200,19 @@ function GetDirectionText(heading)
     return ({
         'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'
     })[math.floor(((heading + 22.5) % 360) / 45) + 1]
+end
+
+function getGears()
+    if hud.gearScript == false then
+        local gear = GetVehicleCurrentGear(cache.vehicle)
+        if gear == 0 then -- Reverse isn't possible here (Stays neutral)
+            return "N"
+        else
+            return gear
+        end
+    else
+        return exports[hud.gearExport]:getCurrentGear()
+    end
 end
 
 RegisterNetEvent('hud:client:UpdateNeeds', function(newHunger, newThirst) -- Triggered in some scripts
@@ -255,7 +284,7 @@ CreateThread(function() -- Speeding
                     if vehClass == 8 then -- Motorcycle exception for seatbelt
                         stressSpeed = hud.stress.minForSpeeding
                     else
-                        stressSpeed = LocalPlayer.state.seatbelt and hud.stress.minForSpeeding or hud.stress.minForSpeedingUnbuckled
+                        stressSpeed = seatbeltOn and hud.stress.minForSpeeding or hud.stress.minForSpeedingUnbuckled
                     end
                     if speed >= stressSpeed then
                         TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
@@ -363,8 +392,24 @@ RegisterNetEvent('hud:client:ToggleShowSeatbelt', function()
     showSeatbelt = not showSeatbelt
 end)
 
+RegisterNetEvent('seatbelt:client:ToggleSeatbelt', function()
+    if hud.framework == 'qbx_core' then
+        seatbeltOn = LocalPlayer.state.seatbelt
+    else
+        if not seatbeltOn then
+            seatbeltOn = true
+        else
+            seatbeltOn = not seatbeltOn
+        end
+    end
+end)
+
 local function restartHud()
-    exports.qbx_core:Notify('Hud Is Restarting', 'error')
+    if hud.framework == 'qbx_core' then
+        exports.qbx_core:Notify('Hud Is Restarting', 'error')
+    else
+        QBCore.Functions.Notify('Hud Is Restarting', 'error')
+    end
     Wait(1000)
     SendNUIMessage({ action = 'hideVehicleHUD'})
     SendNUIMessage({ action = 'hidePlayerHUD'})
@@ -374,7 +419,11 @@ local function restartHud()
     SendNUIMessage({ action = 'showPlayerHUD'})
     DisplayRadar(true)
     Wait(1000)
-    exports.qbx_core:Notify('Hud Has Started!', 'success')
+    if hud.framework == 'qbx_core' then
+        exports.qbx_core:Notify('Hud Has Started!', 'success')
+    else
+        QBCore.Functions.Notify('Hud Is Started', 'success')
+    end
 end
 
 RegisterCommand('restarthud', function()

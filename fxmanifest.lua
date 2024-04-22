@@ -4,12 +4,12 @@ Author 'AutLaaw'
 
 shared_scripts {
     '@ox_lib/init.lua',
-    '@qbx_core/modules/lib.lua',
+    '@qbx_core/modules/lib.lua', -- Comment this out for qb-core
     'config.lua',
 }
 
 client_scripts {
-    '@qbx_core/modules/playerdata.lua',
+    '@qbx_core/modules/playerdata.lua', -- Comment this out for qb-core
     'client/*.lua',
 }
 

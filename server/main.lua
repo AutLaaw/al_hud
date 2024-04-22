@@ -1,17 +1,30 @@
 local config = require 'config'
 local hud = config.HUD
+local QBCore
+if hud.framework == 'qb-core' then
+    QBCore = exports[hud.framework]:GetCoreObject()
+end
+local player
 local ResetStress = false
 
 --[[
 lib.addCommand('cash', {help = 'Check Cash Balance'}, function(source, args)
-    local Player = exports.qbx_core:GetPlayer(source)
-    local cashamount = Player.PlayerData.money.cash
+    if hud.framework == 'qbx_core' then
+        player = exports.qbx_core:GetPlayer(source)
+    else
+        player = QBCore.Functions.GetPlayer(source)
+    end
+    local cashamount = player.PlayerData.money.cash
     TriggerClientEvent('hud:client:ShowAccounts', source, 'cash', cashamount)
 end)
 
 lib.addCommand('bank', { help = 'Check Bank Balance'}, function(source, args)
-    local Player = exports.qbx_core:GetPlayer(source)
-    local bankamount = Player.PlayerData.money.bank
+    if hud.framework == 'qbx_core' then
+        player = exports.qbx_core:GetPlayer(source)
+    else
+        player = QBCore.Functions.GetPlayer(source)
+    end
+    local bankamount = player.PlayerData.money.bank
     TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 end)
 ]]
@@ -19,7 +32,11 @@ end)
 RegisterNetEvent('hud:server:GainStress', function(amount)
     if hud.disableStress then return end
     local src = source
-    local player = exports.qbx_core:GetPlayer(src)
+    if hud.framework == 'qbx_core' then
+        player = exports.qbx_core:GetPlayer(src)
+    else
+        player = QBCore.Functions.GetPlayer(src)
+    end
     local Job = player.PlayerData.job.name
     local JobType = player.PlayerData.job.type
     local newStress
@@ -38,13 +55,21 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     end
     player.Functions.SetMetaData('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-    exports.qbx_core:Notify(src, "Stress gained", 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#C53030')
+    if hud.framework == 'qbx_core' then
+        exports.qbx_core:Notify(src, "Stress gained", 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#C53030')
+    else
+        TriggerClientEvent('QBCore:Notify', src, "Stress Gained", 'error', 2500)
+    end
 end)
 
 RegisterNetEvent('hud:server:RelieveStress', function(amount)
     if hud.disableStress then return end
     local src = source
-    local player = exports.qbx_core:GetPlayer(src)
+    if hud.framework == 'qbx_core' then
+        player = exports.qbx_core:GetPlayer(src)
+    else
+        player = QBCore.Functions.GetPlayer(src)
+    end
     local newStress
     if not player then return end
     if not ResetStress then
@@ -61,5 +86,9 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     end
     player.Functions.SetMetaData('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-    exports.qbx_core:Notify(src, "Relived stress", 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
+    if hud.framework == 'qbx_core' then
+        exports.qbx_core:Notify(src, "Relived stress", 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
+    else
+        TriggerClientEvent('QBCore:Notify', src, "Relived stress", 'success', 2500)
+    end
 end)

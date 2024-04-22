@@ -1,22 +1,24 @@
 return {
     HUD = {
-        updateDelay = 100,               -- HUD update delay in milliseconds
-        useMPH = true,                   -- If true speed math will be done as MPH, if false KPH will be used (YOU HAVE TO CHANGE CONTENT IN STYLES.CSS TO DISPLAY THE CORRECT TEXT)
-        disableStress = false,           -- If true will disable stress completely for all players
-        enableCayoMiniMap = true,        -- true = enable, false = disabled
-        gearExport = 'qbx_transmission', -- Your transmission script. I use HRS Handling (Paid).
+        framework = 'qbx_core',          -- Choose between 'qbx_core' or 'qb-core'. If you have renamed 'qb-core', use that. (Update comment lines in fxmanifest accordingly)
+        updateDelay = 100,               -- Delay in milliseconds for HUD updates
+        useMPH = true,                   -- If set to true, speed calculations will be in MPH; if false, KPH will be used (Adjust content in styles.css to reflect the chosen unit)
+        disableStress = false,           -- Set to true to completely disable stress for all players
+        enableCayoMiniMap = true,        -- Set to true to enable the Cayo Perico minimap, false to disable
+        gearScript = false,              -- Set to true if using a gear script; otherwise, leave as false
+        gearExport = 'qbx_transmission', -- Name of your transmission/gear script. Example: 'qbx_transmission'. (I use HRS Handling, which is paid.)
 
         stress = {
-            chance = 0.05, -- Percentage stress chance when shooting (0-1)
+            chance = 0.05, -- Percentage chance of stress when shooting (0-1)
             minForShaking = 50, -- Minimum stress level for screen shaking
-            minForSpeeding = 125, --- Going Over This Speed While Buckled Will Cause Stress
-            minForSpeedingUnbuckled = 50, -- Going Over This Speed Unbuckled Will Cause Stress
-            whitelistedWeapons = { -- Weapons which don't give stress
+            minForSpeeding = 125, --- Stress begins when speed exceeds this value while buckled
+            minForSpeedingUnbuckled = 50, -- Stress begins when speed exceeds this value while unbuckled
+            whitelistedWeapons = { -- List of weapons that do not induce stress
                 `weapon_petrolcan`,
                 `weapon_hazardcan`,
                 `weapon_fireextinguisher`,
             },
-            blurIntensity = { -- Blur intensity for different stress levels
+            blurIntensity = { -- Blur intensity levels for different stress levels
                 [1] = {min = 50, max = 60, intensity = 1500},
                 [2] = {min = 60, max = 70, intensity = 2000},
                 [3] = {min = 70, max = 80, intensity = 2500},
@@ -32,7 +34,7 @@ return {
             },
         },
 
-        vehClassStress = { -- Enable/Disable gaining stress from vehicle classes in this table
+        vehClassStress = { -- Enable/Disable stress from vehicle classes
             ["0"] = true,         -- Compacts
             ["1"] = true,         -- Sedans
             ["2"] = true,         -- SUVs
@@ -56,11 +58,11 @@ return {
             ["21"] = false        -- Trains
         },
 
-        whitelistedVehicles = { -- Disable gaining stress from speeding in any vehicle in this table
+        whitelistedVehicles = { -- List of vehicles that do not induce stress from speeding
             --[`adder`] = true
         },
 
-        whitelistedJobs = { -- Disable stress completely for players with matching job or job type
+        whitelistedJobs = { -- List of jobs or job types for which stress is completely disabled
             ["leo"] = true,
             ["ambulance"] = true
         },

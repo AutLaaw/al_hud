@@ -37,6 +37,6 @@ My version of [mt-hud](https://github.com/MT-Scripts/mt-hud)
 - Added default gear calculation if you don't want to use the paid resource
 - Added radio support (Voice bar turns purple)
 
-# Dependicies
+# Dependencies
 - qbx_core or qb-core
 - ox_lib

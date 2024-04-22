@@ -422,7 +422,7 @@ local function restartHud()
     if hud.framework == 'qbx_core' then
         exports.qbx_core:Notify('Hud Has Started!', 'success')
     else
-        QBCore.Functions.Notify('Hud Is Started', 'success')
+        QBCore.Functions.Notify('Hud Has Started', 'success')
     end
 end
 

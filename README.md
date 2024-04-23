@@ -1,5 +1,6 @@
 # AutLaaw's Hud
-My version of [mt-hud](https://github.com/MT-Scripts/mt-hud) 
+My version of [mt-hud](https://github.com/MT-Scripts/mt-hud)
+Credits to Marttins for the base code and contributions from ChristianBDev's fork.
 
 # Compatibility
 - HRS's Handling script for gears

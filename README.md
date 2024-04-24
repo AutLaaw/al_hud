@@ -1,10 +1,13 @@
 # AutLaaw's Hud
 My version of [mt-hud](https://github.com/MT-Scripts/mt-hud)
-Credits to Marttins for the base code and contributions from ChristianBDev's fork.
+# Credits
+- Marttins for the base code
+- Snippets from ChristianBDev's fork
+- ESX conversion by Sh0rtyyy
 
 # Compatibility
 - HRS's Handling script for gears
-- QBX and QB Framework
+- QBX, QB and ESX Framework
 
 # Preview 1.0
 ![Image](https://i.imgur.com/68Xu9gC.png)
@@ -16,28 +19,33 @@ Credits to Marttins for the base code and contributions from ChristianBDev's for
 ![Image](https://i.imgur.com/Yt1M42D.png)
 
 # 1.0 Features
-- Status HUD with health, armor, hunger, thirst, stamina/oxygen, and stress
-- HUD components hiding when filled 80%
-- Car HUD with vehicle speed, altitude, closest streets, direction, gear, rpm, and fuel
-- Voice HUD with range and changing color when talking
+- Status HUD: health, armor, hunger, thirst, stamina/oxygen, and stress
+- Vehicle HUD: vehicle speed, altitude, closest roads, direction, gear, rpm, and fuel
+- Voice HUD: range and color change while talking
+- Dynamic hiding of HUD components when filled 80%
 - Dynamic minimap based on player resolution
-- Border at minimap and changed minimap shape
-- HUD menu to adjust your preferred design (currently WIP)
-- Written to support ox_lib and all its features, using statebags, etc.
+- Border and shape adjustments for the minimap
+- HUD menu for design customization (work in progress)
+- Written to support ox_lib and all its features, including statebags, etc.
 
 # 1.1 Features
-- Rewrote HUD UI menu
-- Added default values for displaying HUD elements (health, armor, etc.)
-- Added reset all button
-- Added support for 2560x1080 resolution
+- Rewritten HUD UI menu
+- Default values for displaying HUD elements (health, armor, etc.)
+- Reset all button
+- Support for 2560x1080 resolution
 - Improved code functionality
-- Fixed stress not working properly
+- Fixed stress functionality
 
 # 1.2 Features
 - Added support for QB framework
-- Added default gear calculation if you don't want to use the paid resource
-- Added radio support (Voice bar turns purple)
+- Default gear calculation option (if paid resource not used)
+- Radio support (voice bar turns purple)
+
+# 1.3 Features
+- Added support for ESX framework (Thanks Sh0rtyyy)
+- Ability to change the positioning of the status HUD
+- Fixed some UI issues
 
 # Dependencies
-- qbx_core or qb-core
+- qbx_core, qb-core or es_extended
 - ox_lib

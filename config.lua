@@ -1,6 +1,6 @@
 return {
     HUD = {
-        framework = 'qbx_core',          -- Choose between 'qbx_core' or 'qb-core'. If you have renamed 'qb-core', use that. (Update comment lines in fxmanifest accordingly)
+        framework = 'qbx_core',          -- Choose between 'qbx_core', 'qb-core' or 'esx'. If you have renamed 'qb-core', use that. (Update comment lines in fxmanifest accordingly)
         updateDelay = 100,               -- Delay in milliseconds for HUD updates
         useMPH = true,                   -- If set to true, speed calculations will be in MPH; if false, KPH will be used (Adjust content in styles.css to reflect the chosen unit)
         disableStress = false,           -- Set to true to completely disable stress for all players
@@ -62,7 +62,7 @@ return {
             --[`adder`] = true
         },
 
-        whitelistedJobs = { -- List of jobs or job types for which stress is completely disabled
+        whitelistedJobs = { -- List of jobs or job types for which stress is completely disabled (ESX doesn't support job types!)
             ["leo"] = true,
             ["ambulance"] = true
         },

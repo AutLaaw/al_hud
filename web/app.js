@@ -1,81 +1,93 @@
 $(document).ready(function(){
     display(false)
+    
+    var defaultValues = {
+        health: 80,
+        armor: 25,
+        thirst: 80,
+        hunger: 80,
+        stamina: 80,
+        stress: 25
+    };
 
-    var defaultHealth = 80;
-    var defaultArmor = 10;
-    var defaultThirst = 80;
-    var defaultHunger = 80;
-    var defaultStamina = 80;
-    var defaultStress = 10;
+    var vehicleMaxValues = {
+        '1920x1080': { maxHeight: 855, maxWidth: 1617 },
+        '2560x1080': { maxHeight: 855, maxWidth: 2257 },
+        '2560x1440': { maxHeight: 1142, maxWidth: 2154 }
+        // Add more resolutions here if needed
+    };
+
+    var playerMaxValues = {
+        '1920x1080': { maxHeight: 1052, maxWidth: 1537 },
+        '2560x1080': { maxHeight: 1052, maxWidth: 2177 },
+        '2560x1440': { maxHeight: 1412, maxWidth: 2177 }
+        // Add more resolutions here if needed
+    };
+
+    function updateHUD(data) {
+        updatePlayerHUD(data.player);
+        updateVehicleHUD(data.vehicle);
+        updateRPM(data.vehicle.rpm);
+    }
 
     function previewUpdateHUD() {
-        const playerData = {
-            health: 75,
-            armor: 50,
-            thirst: 80,
-            hunger: 80,
-            stamina: 60,
-            stress: 50,
-            voice: 4,
-            talking: false
-        };
-        
-        const vehicleData = {
-            speed: 60,
-            fuel: 100,
-            gear: 4,
-            rpm: 2000,
-            seatbeltOn: false,
-            altitude: 500,
-            altitudetexto: 'ALT',
-            street1: 'BAYTREE CANYON RD',
-            street2: 'SENORA RD', 
-            direction: 'E'
+        var defaultData = {
+            player: defaultValues,
+            vehicle: {
+                speed: 60,
+                fuel: 100,
+                gear: 4,
+                rpm: 2000,
+                seatbeltOn: false,
+                altitude: 500,
+                altitudetexto: 'ALT',
+                street1: 'BAYTREE CANYON RD',
+                street2: 'SENORA RD',
+                direction: 'E'
+            }
         };
 
-        updatePlayerHUD(playerData);
-        updateVehicleHUD(vehicleData);
-        updateRPM(vehicleData.rpm);
-        display(true)
+        updateHUD(defaultData);
+        display(true);
     }
 
     function updatePlayerHUD(data) {
-        if (data.health <= defaultHealth) {
+        if (data.health <= defaultValues.health) {
             $('#health-container').fadeIn('slow');
             $('#health').css('width', data.health + '%');
         } else {
             $('#health-container').fadeOut('slow');
         }
 
-        if (data.armor >= defaultArmor) {
+        if (data.armor >= defaultValues.armor) {
             $('#armor-container').fadeIn('slow');
             $('#armor').css('width', data.armor + '%');
         } else {
             $('#armor-container').fadeOut('slow');
         }
 
-        if (data.thirst <= defaultThirst) {
+        if (data.thirst <= defaultValues.thirst) {
             $('#thirst-container').fadeIn('slow');
             $('#thirst').css('width', data.thirst + '%');
         } else {
             $('#thirst-container').fadeOut('slow');
         }
 
-        if (data.hunger <= defaultHunger) {
+        if (data.hunger <= defaultValues.hunger) {
             $('#hunger-container').fadeIn('slow');
             $('#hunger').css('width', data.hunger + '%');
         } else {
             $('#hunger-container').fadeOut('slow');
         }
 
-        if (data.stamina <= defaultStamina) {
+        if (data.stamina <= defaultValues.stamina) {
             $('#stamina-container').fadeIn('slow');
             $('#stamina').css('width', data.stamina + '%');
         } else {
             $('#stamina-container').fadeOut('slow');
         }
 
-        if (data.stress >= defaultStress) {
+        if (data.stress >= defaultValues.stress) {
             $('#stress-container').fadeIn('slow')
             $('#stress').css('width', data.stress+'%')
         } else { $('#stress-container').fadeOut('slow') }
@@ -126,7 +138,7 @@ $(document).ready(function(){
     function display(bool) {
         if (bool) {
             $('#ui-container').show();
-            $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth').each(function() {
+            $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth, #playerHudHeight, #playerHudWidth').each(function() {
                 var $this = $(this);
                 var value = $this.val();
                 var sliderId = $this.attr('id');
@@ -155,39 +167,46 @@ $(document).ready(function(){
         }
     };
 
-    function setHudSizeLimits() {
+    function setHudSizeLimits(vehicleMaxValues, playerMaxValues) {
         var screenWidth = window.screen.width;
         var screenHeight = window.screen.height;
-
-        var maxValues = {
-            '1920x1080': { maxHeight: 855, maxWidth: 1615 },
-            '2560x1080': { maxHeight: 855, maxWidth: 2257 },
-            '2560x1440': { maxHeight: 1142, maxWidth: 2154 }
-            // Add more resolutions here if needed
-        };
-        var defaultMaxHeight = 853;
-        var defaultMaxWidth = 1615;
+    
+        var defaultMaxHeight = 855; // 1920
+        var defaultMaxWidth = 1617; // 1080
+    
         var resolutionKey = screenWidth + 'x' + screenHeight;
-        var maxHeight = maxValues[resolutionKey] ? maxValues[resolutionKey].maxHeight : defaultMaxHeight;
-        var maxWidth = maxValues[resolutionKey] ? maxValues[resolutionKey].maxWidth : defaultMaxWidth;
-        $('#vehicleHudHeight').attr('max', maxHeight);
-        $('#vehicleHudWidth').attr('max', maxWidth);
+    
+        var vehicleMaxHeight = vehicleMaxValues[resolutionKey] ? vehicleMaxValues[resolutionKey].maxHeight : defaultMaxHeight;
+        var vehicleMaxWidth = vehicleMaxValues[resolutionKey] ? vehicleMaxValues[resolutionKey].maxWidth : defaultMaxWidth;
+    
+        var playerMaxHeight = playerMaxValues[resolutionKey] ? playerMaxValues[resolutionKey].maxHeight : defaultMaxHeight;
+        var playerMaxWidth = playerMaxValues[resolutionKey] ? playerMaxValues[resolutionKey].maxWidth : defaultMaxWidth;
+    
+        $('#vehicleHudHeight').attr('max', vehicleMaxHeight);
+        $('#vehicleHudWidth').attr('max', vehicleMaxWidth);
+    
+        $('#playerHudHeight').attr('max', playerMaxHeight);
+        $('#playerHudWidth').attr('max', playerMaxWidth);
     }
 
     function setDefaultSizeValues() {
         var defaultHeight, defaultWidth;
-
-        if (window.screen.width === 2560 && window.screen.height === 1080) {
-            defaultHeight = 33;
+    
+        if (window.screen.width === 1920 && window.screen.height === 1080) {
+            defaultHeight = 32;
+            defaultWidth = 9;
+        } else if (window.screen.width === 2560 && window.screen.height === 1080) {
+            defaultHeight = 32;
             defaultWidth = 23;
         } else {
             defaultHeight = 45; // Default height value for resolutions
             defaultWidth = 12; // Default width value for resolutions
         }
-
+    
         $('#vehicleHudHeight').val(defaultHeight);
         $('#vehicleHudWidth').val(defaultWidth);
     }
+    
 
     $('.vehicleHudHeightReset').click(function() {
         $('#vehicleHudHeight').val($('#vehicleHudHeight').attr('value'));
@@ -195,6 +214,14 @@ $(document).ready(function(){
 
     $('.vehicleHudWidthReset').click(function() {
         $('#vehicleHudWidth').val($('#vehicleHudWidth').attr('value'));
+    });
+
+    $('.playerHudHeightReset').click(function() {
+        $('#playerHudHeight').val($('#playerHudHeight').attr('value'));
+    });
+
+    $('.playerHudWidthReset').click(function() {
+        $('#playerHudWidth').val($('#playerHudWidth').attr('value'));
     });
 
     window.addEventListener('message', function(event) {
@@ -307,7 +334,7 @@ $(document).ready(function(){
 
     $('#vehicleHudHeight').on('input', function() {
         var heightValue = $(this).val();
-        console.log('Height Value:', heightValue);
+        // console.log('Height Value:', heightValue);
         $('#vehicle-hud-container').css('bottom', heightValue + 'px');
     });
 
@@ -315,8 +342,10 @@ $(document).ready(function(){
         var defaultHeight;
     
         // Edit here to add more reset values
-        if (window.screen.width === 2560 && window.screen.height === 1080) {
-            defaultHeight = 33;
+        if (window.screen.width === 1920 && window.screen.height === 1080) {
+            defaultHeight = 32;
+        } else if (window.screen.width === 2560 && window.screen.height === 1080) {
+            defaultHeight = 32;
         } else {
             defaultHeight = 45;
         }
@@ -328,7 +357,7 @@ $(document).ready(function(){
 
     $('#vehicleHudWidth').on('input', function() {
         var widthValue = $(this).val();
-        console.log('Height Value:', widthValue);
+        // console.log('Height Value:', widthValue);
         $('#vehicle-hud-container').css('left', widthValue + 'px');
     });
 
@@ -336,7 +365,9 @@ $(document).ready(function(){
         var defaultWidth;
     
         // Edit here to add more reset values
-        if (window.screen.width === 2560 && window.screen.height === 1080) {
+        if (window.screen.width === 1920 && window.screen.height === 1080) {
+            defaultWidth = 9;
+        } else if (window.screen.width === 2560 && window.screen.height === 1080) {
             defaultWidth = 23;
         } else {
             defaultWidth = 12;
@@ -345,6 +376,34 @@ $(document).ready(function(){
         $('#vehicleHudWidth').val(defaultWidth);
         $('#vehicle-hud-container').css('left', defaultWidth + 'px');
         updateSliderLabel('vehicleHudWidth', defaultWidth);
+    });
+
+    $('#playerHudHeight').on('input', function() {
+        var heightValue = $(this).val();
+        // console.log('Height Value:', heightValue);
+        $('#player-hud-container').css('bottom', heightValue + 'px');
+    });
+
+    $('.playerHudHeightReset').click(function() {
+        var defaultPlayerHeight = 5;
+
+        $('#playerHudHeight').val(defaultPlayerHeight);
+        $('#player-hud-container').css('bottom', defaultPlayerHeight + 'px');
+        updateSliderLabel('playerHudHeight', defaultPlayerHeight);
+    });
+
+    $('#playerHudWidth').on('input', function() {
+        var widthValue = $(this).val();
+        // console.log('Height Value:', widthValue);
+        $('#player-hud-container').css('left', widthValue + 'px');
+    });
+
+    $('.playerHudWidthReset').click(function() {
+        defaultPlayerWidth = 12;
+    
+        $('#playerHudWidth').val(defaultPlayerWidth);
+        $('#player-hud-container').css('left', defaultPlayerWidth + 'px');
+        updateSliderLabel('playerHudWidth', defaultPlayerWidth);
     });
 
     $('.add-new').click(function() {
@@ -366,16 +425,16 @@ $(document).ready(function(){
     function updateSliderLabel(sliderId, value) {
         var labelId = sliderId + 'Label';
         var $label = $('#' + labelId);
-    
+
         if ($label.length === 0) {
             $label = $('<div></div>', {
                 id: labelId,
                 class: 'slider-label'
             }).insertBefore('#' + sliderId);
         }
-    
+
         $label.text('Value: ' + value);
-    
+
         setTimeout(function() {
             var $slider = $('#' + sliderId);
             var sliderPosition = $slider.position();
@@ -387,14 +446,14 @@ $(document).ready(function(){
         });
     }
 
-    $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth').each(function() {
+    $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth, #playerHudHeight, #playerHudWidth').each(function() {
         var $this = $(this);
         var value = $this.val();
         var sliderId = $this.attr('id');
         updateSliderLabel(sliderId, value);
     });
 
-    $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth').on('input', function() {
+    $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth, #playerHudHeight, #playerHudWidth').on('input', function() {
         var $this = $(this);
         var value = $this.val();
         var sliderId = $this.attr('id');
@@ -402,7 +461,7 @@ $(document).ready(function(){
     });
 
     $(window).resize(function() {
-        $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth').each(function() {
+        $('#UIElementGap, #vehicleHudHeight, #vehicleHudWidth, #playerHudHeight, #playerHudWidth').each(function() {
             var $this = $(this);
             var value = $this.val();
             var sliderId = $this.attr('id');
@@ -422,72 +481,78 @@ $(document).ready(function(){
         $(this).val(value);
 
         if (id === 'healthvalue') {
-            defaultHealth = value;
+            defaultValues.health = value;
         } else if (id === 'armorvalue') {
-            defaultArmor = value;
+            defaultValues.armor = value;
         } else if (id === 'thirstvalue') {
-            defaultThirst = value;
+            defaultValues.thirst = value;
         } else if (id === 'hungervalue') {
-            defaultHunger = value;
+            defaultValues.hunger = value;
         } else if (id === 'staminavalue') {
-            defaultStamina = value;
+            defaultValues.stamina = value;
         } else if (id === 'stressvalue') {
-            defaultStress = value;
+            defaultValues.stress = value;
         }
     });
 
     $('.resetHealth').click(function() {
         $('#healthvalue').val(80);
-        defaultHealth = 80;
+        defaultValues.health = 80;
     });
 
     $('.resetArmor').click(function() {
         $('#armorvalue').val(10);
-        defaultArmor = 10;
+        defaultValues.armor = 10;
     });
 
     $('.resetThirst').click(function() {
         $('#thirstvalue').val(80);
-        defaultThirst = 80;
+        defaultValues.armor = 80;
     });
 
     $('.resetHunger').click(function() {
         $('#hungervalue').val(80);
-        defaultHunger = 80;
+        defaultValues.hunger = 80;
     });
 
     $('.resetStamina').click(function() {
         $('#staminavalue').val(80);
-        defaultStamina = 80;
+        defaultValues.stamina = 80;
     });
 
     $('.resetStress').click(function() {
         $('#stressvalue').val(10);
-        defaultStress = 10;
+        defaultValues.stress = 10;
     });
 
     $('#resetAll').on('click', function() {
         const defaultColor = '#82fd35';
-        $('#menubuttons').css('backgroundColor', defaultColor);
+        $('#menubuttons').css('background-color', defaultColor);
         $('#menubuttons').css('color', isDarkColor(defaultColor) ? 'white' : 'black');
         document.documentElement.style.setProperty('--main-color', defaultColor);
         $('#colorPicker').val(defaultColor);
         $('#player-hud-container').css('flex-direction', 'row');
     
         $('#healthvalue').val('80');
-        defaultHealth = 80;
+        defaultValues.health = 80;
         $('#armorvalue').val('10');
+        defaultValues.armor = 10;
         $('#thirstvalue').val('80');
-        defaultThirst = 80;
+        defaultValues.thirst = 80;
         $('#hungervalue').val('80');
-        defaultHunger = 80;
+        defaultValues.hunger = 80;
         $('#staminavalue').val('80');
-        defaultStamina = 80;
+        defaultValues.stamina = 80;
         $('#stressvalue').val('10');
-        defaultStress = 10;
+        defaultValues.stress = 10;
+
+        $('.vehicleHudHeightReset').click();
+        $('.vehicleHudWidthReset').click();
+        $('.playerHudHeightReset').click();
+        $('.playerHudWidthReset').click();
     });
 
     setDefaultSizeValues();
-    setHudSizeLimits();
+    setHudSizeLimits(vehicleMaxValues, playerMaxValues);
     //previewUpdateHUD();
 });

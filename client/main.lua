@@ -1,9 +1,10 @@
 local config = require 'config'
 local hud = config.HUD
-local QBCore
 local seatbeltOn = false
 if hud.framework == 'qb-core' then
     QBCore = exports[hud.framework]:GetCoreObject()
+elseif hud.framework == 'esx' then
+    ESX = exports["es_extended"]:getSharedObject()
 end
 if hud.framework == 'qbx_core' then
     seatbeltOn = LocalPlayer.state.seatbelt
@@ -55,12 +56,19 @@ local function saveSettings()
 end
 ]]
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    Wait(500)
-    --local hudSettings = GetResourceKvpString('hudSettings')
-    --if hudSettings then loadSettings(json.decode(hudSettings)) end
-    startHUD()
-end)
+if hud.framework =='esx' then
+    RegisterNetEvent("esx:playerLoaded", function()
+        Wait(2000)
+        startHUD()
+    end)
+else
+    RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+        Wait(2000)
+        --local hudSettings = GetResourceKvpString('hudSettings')
+        --if hudSettings then loadSettings(json.decode(hudSettings)) end
+        startHUD()
+    end)
+end
 
 AddEventHandler('onResourceStart', function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
@@ -115,6 +123,16 @@ CreateThread(function()
             stamina = 100 - GetPlayerSprintStaminaRemaining(cache.playerId)
         else
             stamina = GetPlayerUnderwaterTimeRemaining(cache.playerId) * 10
+        end
+
+        if hud.framework == 'esx' then
+            TriggerEvent('esx_status:getStatus', 'hunger', function(status)
+                if status then hunger = status.val / 10000 end
+            end)
+
+            TriggerEvent('esx_status:getStatus', 'thirst', function(status)
+                if status then thirst = status.val / 10000 end
+            end)
         end
 
         SendNUIMessage({
@@ -206,7 +224,7 @@ function getGears()
     if hud.gearScript == false then
         local gear = GetVehicleCurrentGear(cache.vehicle)
         if gear == 0 then -- Reverse isn't possible here (Stays neutral)
-            return "N"
+            return "N" -- If you'd like to have reverse as the default when stationary or reversing, change this to 'R'. Currently, it stays neutral if reversing.
         else
             return gear
         end
@@ -407,6 +425,8 @@ end)
 local function restartHud()
     if hud.framework == 'qbx_core' then
         exports.qbx_core:Notify('Hud Is Restarting', 'error')
+    elseif hud.framework =='esx' then
+        lib.notify({ title = 'HUD', description = 'Hud Is Restarting', type = 'warning' })
     else
         QBCore.Functions.Notify('Hud Is Restarting', 'error')
     end
@@ -421,6 +441,8 @@ local function restartHud()
     Wait(1000)
     if hud.framework == 'qbx_core' then
         exports.qbx_core:Notify('Hud Has Started!', 'success')
+    elseif hud.framework == 'esx' then
+        lib.notify({ title = 'HUD', description = 'Hud Has Started', type = 'warning' })
     else
         QBCore.Functions.Notify('Hud Has Started', 'success')
     end
